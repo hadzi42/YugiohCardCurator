@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YugiohCardCurator", "Source\YugiohCardCurator\YugiohCardCurator.csproj", "{31C29337-8225-4DED-BA45-420CF61A5CD1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsgardCore", "..\AsgardCore\Source\AsgardCore\AsgardCore.csproj", "{D6443D3F-9D6F-435E-A491-3A294129FE12}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31C29337-8225-4DED-BA45-420CF61A5CD1}.Debug|x64.ActiveCfg = Debug|x64
+		{31C29337-8225-4DED-BA45-420CF61A5CD1}.Debug|x64.Build.0 = Debug|x64
+		{31C29337-8225-4DED-BA45-420CF61A5CD1}.Release|x64.ActiveCfg = Release|x64
+		{31C29337-8225-4DED-BA45-420CF61A5CD1}.Release|x64.Build.0 = Release|x64
+		{D6443D3F-9D6F-435E-A491-3A294129FE12}.Debug|x64.ActiveCfg = Debug|x64
+		{D6443D3F-9D6F-435E-A491-3A294129FE12}.Debug|x64.Build.0 = Debug|x64
+		{D6443D3F-9D6F-435E-A491-3A294129FE12}.Release|x64.ActiveCfg = Release|x64
+		{D6443D3F-9D6F-435E-A491-3A294129FE12}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1A733762-B2FD-4179-8699-3D6A94003CE2}
+	EndGlobalSection
+EndGlobal
