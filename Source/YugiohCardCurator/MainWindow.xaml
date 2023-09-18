@@ -3,12 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:YugiohCardCurator"
+        xmlns:vm="clr-namespace:YugiohCardCurator.ViewModels"
+        xmlns:v="clr-namespace:YugiohCardCurator.Views"
         mc:Ignorable="d"
         Title="Yugioh card curator"
         Height="450"
         Width="800">
+    
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+    
     <Grid>
-
+        <TabControl>
+            <TabItem Header="Add monster">
+                <v:AddMonsterCardControl />
+            </TabItem>
+            <TabItem Header="Monsters">
+                <DataGrid ItemsSource="{Binding Path=Cards}" />
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
