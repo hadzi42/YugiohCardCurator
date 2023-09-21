@@ -1,4 +1,7 @@
 ﻿using System.Windows;
+using YugiohCardCurator.Logic;
+using YugiohCardCurator.ViewModels;
+using YugiohCardCurator.Views;
 
 namespace YugiohCardCurator
 {
@@ -10,6 +13,10 @@ namespace YugiohCardCurator
         public MainWindow()
         {
             InitializeComponent();
+
+            CardManager cardManager = new CardManager();
+            ((MainWindowViewModel)DataContext).Initialize(cardManager, new DialogHandler());
+            ((AddMonsterCardViewModel)AddMonsterCard.DataContext).Initialize(cardManager);
         }
     }
 }

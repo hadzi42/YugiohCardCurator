@@ -5,7 +5,7 @@ namespace YugiohCardCurator.DTOs
     internal sealed class Price
     {
         [JsonPropertyName("average")]
-        public double Average { get; set; }
+        public float Average { get; set; }
 
         public double high { get; set; }
         public double low { get; set; }

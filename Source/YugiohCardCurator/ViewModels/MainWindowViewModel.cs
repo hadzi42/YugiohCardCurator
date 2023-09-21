@@ -5,14 +5,57 @@ namespace YugiohCardCurator.ViewModels
 {
     internal sealed class MainWindowViewModel : ViewModelBase
     {
-        public RangeObservableCollection<Card> Cards { get; }
+        private CardManager _CardManager;
+        private IDialogHandler _DialogHandler;
+        private string _Path;
+
+        public RangeObservableCollection<Card> Monsters { get; }
+
+        public DelegateCommand Open { get; private set; }
+        public DelegateCommand Save { get; private set; }
 
         public MainWindowViewModel()
         {
-            Cards = new RangeObservableCollection<Card>
+            Monsters = new RangeObservableCollection<Card>();
+
+            Open = new DelegateCommand(OpenExecute);
+            Save = new DelegateCommand(SaveExecute);
+        }
+
+        public void Initialize(CardManager cardManager, IDialogHandler dialogHandler)
+        {
+            _CardManager = cardManager;
+            _CardManager.MonsterAdded += OnMonsterAdded;
+
+            _DialogHandler = dialogHandler;
+        }
+
+        private void SaveExecute(object o)
+        {
+            if (string.IsNullOrEmpty(_Path))
             {
-                new Card("Magikuriboh", "MP23-EN002", "Fiend / Effect", "Dark", 1, 300, 200)
-            };
+                _Path = _DialogHandler.ShowSaveFileDialog();
+                if (string.IsNullOrEmpty(_Path))
+                    return;
+            }
+
+            _CardManager.Save(_Path);
+        }
+
+        private void OpenExecute(object o)
+        {
+            string path = _DialogHandler.ShowOpenFileDialog();
+            if (string.IsNullOrEmpty(path))
+                return;
+
+            _CardManager.Load(path);
+            _Path = path;
+            Monsters.ReplaceAll(_CardManager.Monsters);
+        }
+
+        private void OnMonsterAdded(Card monster)
+        {
+            Monsters.Add(monster);
         }
     }
 }

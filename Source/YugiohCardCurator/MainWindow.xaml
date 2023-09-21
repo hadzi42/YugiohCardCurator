@@ -13,14 +13,27 @@
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
-    
+
+    <Window.InputBindings>
+        <KeyBinding Key="O" Modifiers="Control" Command="{Binding Open}" />
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding Save}" />
+    </Window.InputBindings>
+
     <Grid>
-        <TabControl>
+        <Menu Height="24"
+              VerticalAlignment="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Open" Command="{Binding Open}" InputGestureText="Ctrl+O" />
+                <MenuItem Header="Save" Command="{Binding Save}" InputGestureText="Ctrl+S" />
+            </MenuItem>
+        </Menu>
+        
+        <TabControl Margin="0,24,0,0">
             <TabItem Header="Add monster">
-                <v:AddMonsterCardControl />
+                <v:AddMonsterCardControl x:Name="AddMonsterCard" />
             </TabItem>
             <TabItem Header="Monsters">
-                <DataGrid ItemsSource="{Binding Path=Cards}" />
+                <DataGrid ItemsSource="{Binding Path=Monsters, Mode=OneTime}" />
             </TabItem>
         </TabControl>
     </Grid>
