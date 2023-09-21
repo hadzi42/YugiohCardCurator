@@ -5,7 +5,7 @@ using AsgardCore;
 
 namespace YugiohCardCurator.Logic
 {
-    internal sealed class Card : ISerializable
+    internal sealed class MonsterCard : ISerializable
     {
         public const string Header = "Name;PrintTag;Types;Attribute;Level;ATK;DEF;InitialPrice;CurrentPrice";
         private const string Separator = ";";
@@ -20,7 +20,7 @@ namespace YugiohCardCurator.Logic
         public float InitialPrice { get; }
         public float CurrentPrice { get; }
 
-        public Card(string name, string printTag, string types, string attribute, int level, string atk, string def, float initialPrice, float currentPrice)
+        public MonsterCard(string name, string printTag, string types, string attribute, int level, string atk, string def, float initialPrice, float currentPrice)
         {
             Name = name;
             PrintTag = printTag;
@@ -33,7 +33,7 @@ namespace YugiohCardCurator.Logic
             CurrentPrice = currentPrice;
         }
 
-        public Card(BinaryReader br)
+        public MonsterCard(BinaryReader br)
         {
             string s = br.ReadString();
             _ = br.ReadString();
@@ -57,9 +57,9 @@ namespace YugiohCardCurator.Logic
             bw.Write(Environment.NewLine);
         }
 
-        public static Card Restore(BinaryReader br)
+        public static MonsterCard Restore(BinaryReader br)
         {
-            return new Card(br);
+            return new MonsterCard(br);
         }
     }
 }

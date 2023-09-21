@@ -9,14 +9,14 @@ namespace YugiohCardCurator.ViewModels
         private IDialogHandler _DialogHandler;
         private string _Path;
 
-        public RangeObservableCollection<Card> Monsters { get; }
+        public RangeObservableCollection<MonsterCard> Monsters { get; }
 
         public DelegateCommand Open { get; private set; }
         public DelegateCommand Save { get; private set; }
 
         public MainWindowViewModel()
         {
-            Monsters = new RangeObservableCollection<Card>();
+            Monsters = new RangeObservableCollection<MonsterCard>();
 
             Open = new DelegateCommand(OpenExecute);
             Save = new DelegateCommand(SaveExecute);
@@ -53,7 +53,7 @@ namespace YugiohCardCurator.ViewModels
             Monsters.ReplaceAll(_CardManager.Monsters);
         }
 
-        private void OnMonsterAdded(Card monster)
+        private void OnMonsterAdded(MonsterCard monster)
         {
             Monsters.Add(monster);
         }

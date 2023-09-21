@@ -97,7 +97,7 @@ namespace YugiohCardCurator.ViewModels
 
             int level = Convert.ToInt32(Level, CultureInfo.InvariantCulture);
             float price = Convert.ToSingle(Price.Substring(1), CultureInfo.InvariantCulture);
-            Card monster = new Card(Name, PrintTag, Types, SelectedAttributeValue, level, Atk, Def, price, price);
+            MonsterCard monster = new MonsterCard(Name, PrintTag, Types, SelectedAttributeValue, level, Atk, Def, price, price);
             _CardManager.Add(monster);
 
             // Reset view.

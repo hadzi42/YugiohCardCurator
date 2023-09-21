@@ -9,11 +9,11 @@ namespace YugiohCardCurator.Logic
 {
     internal sealed class CardManager
     {
-        public List<Card> Monsters = new List<Card>();
+        public List<MonsterCard> Monsters = new List<MonsterCard>();
 
-        public event Action<Card> MonsterAdded;
+        public event Action<MonsterCard> MonsterAdded;
 
-        public void Add(Card card)
+        public void Add(MonsterCard card)
         {
             Monsters.Add(card);
             MonsterAdded(card);
@@ -27,7 +27,7 @@ namespace YugiohCardCurator.Logic
                 {
                     using (BinaryWriter bw = new BinaryWriter(gs, Encoding.UTF8))
                     {
-                        bw.Write(Card.Header);
+                        bw.Write(MonsterCard.Header);
                         bw.Write(Environment.NewLine);
                         Monsters.Serialize32(bw);
                     }
@@ -45,7 +45,7 @@ namespace YugiohCardCurator.Logic
                     {
                         br.ReadString();
                         br.ReadString();
-                        Monsters = Extensions.DeserializeISerializableList32(br, Card.Restore);
+                        Monsters = Extensions.DeserializeISerializableList32(br, MonsterCard.Restore);
                     }
                 }
             }
