@@ -7,7 +7,7 @@ namespace YugiohCardCurator.Logic
 {
     internal sealed class MonsterCard : ISerializable
     {
-        public const string Header = "Name;PrintTag;Types;Attribute;Level;ATK;DEF;InitialPrice;CurrentPrice";
+        public const string Header = "Name;PrintTag;Types;Attribute;Level;ATK;DEF;Rarity;InitialPrice;CurrentPrice";
         private const string Separator = ";";
 
         public string Name { get; }
@@ -17,10 +17,11 @@ namespace YugiohCardCurator.Logic
         public int Level { get; }
         public string ATK { get; }
         public string DEF { get; }
+        public string Rarity { get; }
         public float InitialPrice { get; }
         public float CurrentPrice { get; }
 
-        public MonsterCard(string name, string printTag, string types, string attribute, int level, string atk, string def, float initialPrice, float currentPrice)
+        public MonsterCard(string name, string printTag, string types, string attribute, int level, string atk, string def, string rarity, float initialPrice, float currentPrice)
         {
             Name = name;
             PrintTag = printTag;
@@ -29,6 +30,7 @@ namespace YugiohCardCurator.Logic
             Level = level;
             ATK = atk;
             DEF = def;
+            Rarity = rarity;
             InitialPrice = initialPrice;
             CurrentPrice = currentPrice;
         }
@@ -46,13 +48,14 @@ namespace YugiohCardCurator.Logic
             Level = Convert.ToInt32(parts[4], CultureInfo.InvariantCulture);
             ATK = parts[5];
             DEF = parts[6];
-            InitialPrice = Convert.ToSingle(parts[7], CultureInfo.InvariantCulture);
-            CurrentPrice = Convert.ToSingle(parts[8], CultureInfo.InvariantCulture);
+            Rarity = parts[7];
+            InitialPrice = Convert.ToSingle(parts[8], CultureInfo.InvariantCulture);
+            CurrentPrice = Convert.ToSingle(parts[9], CultureInfo.InvariantCulture);
         }
 
         public void Serialize(BinaryWriter bw)
         {
-            string s = string.Join(Separator, Name, PrintTag, Types, Attribute, Level.ToStringInvariant(), ATK, DEF, InitialPrice.ToStringInvariant(), CurrentPrice.ToStringInvariant());
+            string s = string.Join(Separator, Name, PrintTag, Types, Attribute, Level.ToStringInvariant(), ATK, DEF, Rarity, InitialPrice.ToStringInvariant(), CurrentPrice.ToStringInvariant());
             bw.Write(s);
             bw.Write(Environment.NewLine);
         }

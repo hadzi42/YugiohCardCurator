@@ -10,8 +10,10 @@ namespace YugiohCardCurator.Logic
     internal sealed class CardManager
     {
         public List<MonsterCard> Monsters = new List<MonsterCard>();
+        public List<string> Rarities = new List<string>();
 
         public event Action<MonsterCard> MonsterAdded;
+        public event Action Loaded;
 
         public void Add(MonsterCard card)
         {
@@ -49,6 +51,12 @@ namespace YugiohCardCurator.Logic
                     }
                 }
             }
+
+            foreach (MonsterCard card in Monsters)
+                if (!Rarities.Contains(card.Rarity))
+                    Rarities.Add(card.Rarity);
+
+            Loaded();
         }
     }
 }

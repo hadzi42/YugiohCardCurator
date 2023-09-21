@@ -20,6 +20,10 @@ namespace YugiohCardCurator.ViewModels
             { "WATER", "Water" },
             { "WIND", "Wind" }
         };
+        private static readonly string[] PropertyNames = new[]
+        {
+            nameof(Name), nameof(Level), nameof(Types), nameof(Atk), nameof(Def), nameof(Rarity), nameof(Price)
+        };
 
         private CardInfoClient _Client;
         private CardManager _CardManager;
@@ -37,12 +41,15 @@ namespace YugiohCardCurator.ViewModels
             set { SetValue(ref _SelectedAttributeValue, value); }
         }
 
+        public RangeObservableCollection<string> Rarities { get; private set; }
+
         public string PrintTag { get; set; }
         public string Name { get; set; }
         public string Level { get; set; }
         public string Types { get; set; }
         public string Atk { get; set; }
         public string Def { get; set; }
+        public string Rarity { get; set; }
         public string Price { get; set; }
 
         public ICommandBase Fill { get; private set; }
@@ -52,6 +59,7 @@ namespace YugiohCardCurator.ViewModels
         {
             _Client = new CardInfoClient();
             PrintTag = "MP23-EN002";
+            Rarities = new RangeObservableCollection<string>();
             Fill = new DelegateCommand(FillExecute);
             Add = new DelegateCommand(AddExecute);
         }
@@ -59,6 +67,7 @@ namespace YugiohCardCurator.ViewModels
         public void Initialize(CardManager cardManager)
         {
             _CardManager = cardManager;
+            cardManager.Loaded += OnCardManagerLoaded;
         }
 
         public void Dispose()
@@ -71,6 +80,9 @@ namespace YugiohCardCurator.ViewModels
         {
             CardData data = await _Client.GetPriceByPrintTagAsync(PrintTag);
             Name = data.Name;
+            Rarity = data.PriceData.Rarity;
+            if (!Rarities.Contains(Rarity))
+                Rarities.Add(Rarity);
             Price = "$" + data.PriceData.PriceData.Data.Prices.Average.ToStringInvariant();
 
             data = await _Client.GetCardDataAsync(data.Name);
@@ -79,7 +91,7 @@ namespace YugiohCardCurator.ViewModels
             Types = data.Type;
             Atk = data.Atk.ToStringInvariant();
             Def = data.Def.ToStringInvariant();
-            RaisePropertyChanged(nameof(Name), nameof(Level), nameof(Types), nameof(Atk), nameof(Def), nameof(Price));
+            RaisePropertyChanged(PropertyNames);
         }
 
         private void AddExecute(object o)
@@ -97,7 +109,7 @@ namespace YugiohCardCurator.ViewModels
 
             int level = Convert.ToInt32(Level, CultureInfo.InvariantCulture);
             float price = Convert.ToSingle(Price.Substring(1), CultureInfo.InvariantCulture);
-            MonsterCard monster = new MonsterCard(Name, PrintTag, Types, SelectedAttributeValue, level, Atk, Def, price, price);
+            MonsterCard monster = new MonsterCard(Name, PrintTag, Types, SelectedAttributeValue, level, Atk, Def, Rarity, price, price);
             _CardManager.Add(monster);
 
             // Reset view.
@@ -107,8 +119,9 @@ namespace YugiohCardCurator.ViewModels
             Types = "";
             Atk = "";
             Def = "";
+            Rarity = "";
             Price = "";
-            RaisePropertyChanged(nameof(Name), nameof(Level), nameof(Types), nameof(Atk), nameof(Def), nameof(Price));
+            RaisePropertyChanged(PropertyNames);
         }
 
         private static bool IsAttackOrDefenseValid(string s)
@@ -120,6 +133,11 @@ namespace YugiohCardCurator.ViewModels
                 return true;
 
             return s == "?";
+        }
+
+        private void OnCardManagerLoaded()
+        {
+            Rarities.ReplaceAll(_CardManager.Rarities);
         }
     }
 }

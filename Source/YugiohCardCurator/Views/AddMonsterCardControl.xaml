@@ -28,6 +28,7 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="30" />
             <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
         <TextBlock Text="Enter 'Print-tag' and press 'Fill' button to add card properties automatically."
@@ -119,13 +120,25 @@
                  Height="24"
                  Width="180" />
 
-        <TextBlock Text="Price:"
+        <TextBlock Text="Rarity:"
                    Grid.Column="0"
                    Grid.Row="8"
                    Height="24" />
+        <ComboBox Text="{Binding Path=Rarity, Mode=TwoWay}"
+                  ItemsSource="{Binding Path=Rarities, Mode=OneTime}"
+                  Grid.Column="1"
+                  Grid.Row="8"
+                  Margin="12,0,0,0"
+                  Height="24"
+                  Width="180" />
+
+        <TextBlock Text="Price:"
+                   Grid.Column="0"
+                   Grid.Row="9"
+                   Height="24" />
         <TextBox Text="{Binding Path=Price, Mode=TwoWay}"
                  Grid.Column="1"
-                 Grid.Row="8"
+                 Grid.Row="9"
                  Margin="12,0,0,0"
                  Height="24"
                  Width="180" />
@@ -133,7 +146,7 @@
         <Button Content="Add"
                 Command="{Binding Path=Add}"
                 Grid.Column="1"
-                Grid.Row="9"
+                Grid.Row="10"
                 Height="24"
                 Width="90" />
     </Grid>

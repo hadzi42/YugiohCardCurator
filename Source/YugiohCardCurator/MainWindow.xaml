@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="Yugioh card curator"
         Height="450"
-        Width="800">
+        Width="800"
+        WindowStartupLocation="CenterScreen">
     
     <Window.DataContext>
         <vm:MainWindowViewModel />
@@ -30,10 +31,12 @@
         
         <TabControl Margin="0,24,0,0">
             <TabItem Header="Add monster">
-                <v:AddMonsterCardControl x:Name="AddMonsterCard" />
+                <v:AddMonsterCardControl x:Name="AddMonsterCard"
+                                         Margin="6"/>
             </TabItem>
             <TabItem Header="Monsters">
-                <DataGrid ItemsSource="{Binding Path=Monsters, Mode=OneTime}" />
+                <DataGrid ItemsSource="{Binding Path=Monsters, Mode=OneTime}"
+                          Margin="6"/>
             </TabItem>
         </TabControl>
     </Grid>
