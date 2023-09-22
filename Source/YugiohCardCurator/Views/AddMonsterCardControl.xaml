@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:YugiohCardCurator.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="480"
+             d:DesignHeight="640"
              d:DesignWidth="840">
 
     <UserControl.DataContext>
@@ -18,6 +18,12 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="30" />
             <RowDefinition Height="30" />
             <RowDefinition Height="30" />
@@ -42,10 +48,15 @@
         <StackPanel Grid.Column="1"
                     Grid.Row="1"
                     Orientation="Horizontal">
-            <TextBox Text="{Binding Path=PrintTag, Mode=TwoWay}"
+            <TextBox Text="{Binding Path=PrintTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Margin="12,0,0,0"
                      Height="24"
                      Width="90" />
+            <Button Command="{Binding Path=IncrementPrintTag}"
+                    Content="Increment"
+                    Margin="12,0,0,0"
+                    Height="24"
+                    Width="60" />
             <Button Command="{Binding Path=Fill}"
                     Content="Fill"
                     Margin="12,0,0,0"
@@ -120,25 +131,106 @@
                  Height="24"
                  Width="180" />
 
-        <TextBlock Text="Rarity:"
+        <TextBlock Text="Id:"
                    Grid.Column="0"
                    Grid.Row="8"
                    Height="24" />
-        <ComboBox Text="{Binding Path=Rarity, Mode=TwoWay}"
-                  ItemsSource="{Binding Path=Rarities, Mode=OneTime}"
+        <TextBox Text="{Binding Path=Id, Mode=TwoWay}"
+                 Grid.Column="1"
+                 Grid.Row="8"
+                 Margin="12,0,0,0"
+                 Height="24"
+                 Width="180" />
+
+        <TextBlock Text="Border:"
+                   Grid.Column="0"
+                   Grid.Row="9"
+                   Height="24" />
+        <ComboBox Text="{Binding Path=Border, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                  ItemsSource="{Binding Path=Borders, Mode=OneTime}"
+                  SelectedItem="{Binding Path=SelectedBorder, Mode=TwoWay}"
+                  IsEditable="True"
                   Grid.Column="1"
-                  Grid.Row="8"
+                  Grid.Row="9"
                   Margin="12,0,0,0"
                   Height="24"
                   Width="180" />
 
-        <TextBlock Text="Price:"
+        <TextBlock Text="Title:"
                    Grid.Column="0"
-                   Grid.Row="9"
+                   Grid.Row="10"
+                   Height="24" />
+        <ComboBox Text="{Binding Path=Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                  ItemsSource="{Binding Path=Titles, Mode=OneTime}"
+                  SelectedItem="{Binding Path=SelectedTitle, Mode=TwoWay}"
+                  IsEditable="True"
+                  Grid.Column="1"
+                  Grid.Row="10"
+                  Margin="12,0,0,0"
+                  Height="24"
+                  Width="180" />
+
+        <TextBlock Text="Image:"
+                   Grid.Column="0"
+                   Grid.Row="11"
+                   Height="24" />
+        <ComboBox Text="{Binding Path=Image, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                  ItemsSource="{Binding Path=Images, Mode=OneTime}"
+                  SelectedItem="{Binding Path=SelectedImage, Mode=TwoWay}"
+                  IsEditable="True"
+                  Grid.Column="1"
+                  Grid.Row="11"
+                  Margin="12,0,0,0"
+                  Height="24"
+                  Width="180" />
+
+        <TextBlock Text="Edition:"
+                   Grid.Column="0"
+                   Grid.Row="12"
+                   Height="24" />
+        <ComboBox Text="{Binding Path=Edition, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                  ItemsSource="{Binding Path=Editions, Mode=OneTime}"
+                  SelectedItem="{Binding Path=SelectedEdition, Mode=TwoWay}"
+                  IsEditable="True"
+                  Grid.Column="1"
+                  Grid.Row="12"
+                  Margin="12,0,0,0"
+                  Height="24"
+                  Width="180" />
+
+        <TextBlock Text="Storage:"
+                   Grid.Column="0"
+                   Grid.Row="13"
+                   Height="24" />
+        <ComboBox Text="{Binding Path=Storage, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                  ItemsSource="{Binding Path=Storages, Mode=OneTime}"
+                  SelectedItem="{Binding Path=SelectedStorage, Mode=TwoWay}"
+                  IsEditable="True"
+                  Grid.Column="1"
+                  Grid.Row="13"
+                  Margin="12,0,0,0"
+                  Height="24"
+                  Width="180" />
+
+        <TextBlock Text="Rarity:"
+                   Grid.Column="0"
+                   Grid.Row="14"
+                   Height="24" />
+        <ComboBox Text="{Binding Path=Rarity, Mode=TwoWay}"
+                  ItemsSource="{Binding Path=Rarities, Mode=OneTime}"
+                  Grid.Column="1"
+                  Grid.Row="14"
+                  Margin="12,0,0,0"
+                  Height="24"
+                  Width="180" />
+
+        <TextBlock Text="Average price:"
+                   Grid.Column="0"
+                   Grid.Row="15"
                    Height="24" />
         <TextBox Text="{Binding Path=Price, Mode=TwoWay}"
                  Grid.Column="1"
-                 Grid.Row="9"
+                 Grid.Row="15"
                  Margin="12,0,0,0"
                  Height="24"
                  Width="180" />
@@ -146,7 +238,7 @@
         <Button Content="Add"
                 Command="{Binding Path=Add}"
                 Grid.Column="1"
-                Grid.Row="10"
+                Grid.Row="16"
                 Height="24"
                 Width="90" />
     </Grid>

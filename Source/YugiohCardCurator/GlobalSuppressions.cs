@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "<Pending>")]
+[assembly: SuppressMessage("Style", "IDE0057:Use range operator", Justification = "<Pending>")]
