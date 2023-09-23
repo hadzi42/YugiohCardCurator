@@ -9,11 +9,13 @@ namespace YugiohCardCurator.Logic
     internal sealed class CardInfoClient : IDisposable
     {
         private static readonly Uri _BaseAddress = new Uri("https://yugiohprices.com/api/");
+        private readonly CardDataCache _Cache;
         private HttpClient _httpClient;
 
         public CardInfoClient()
         {
             _httpClient = new HttpClient { BaseAddress = _BaseAddress };
+            _Cache = new CardDataCache();
         }
 
         public void Dispose()
@@ -33,11 +35,16 @@ namespace YugiohCardCurator.Logic
         }
 
         public async Task<CardData> GetCardDataAsync(string name)
-        {
+        {            
+            if (_Cache.TryGet(name, out CardData data))
+                return data;
+            
             using (HttpResponseMessage response = await _httpClient.GetAsync("card_data/" + name).ConfigureAwait(false))
             {
                 string responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                return JsonSerializer.Deserialize<PriceResponse>(responseData).Data;
+                data = JsonSerializer.Deserialize<PriceResponse>(responseData).Data;
+                _Cache.Add(name, data);
+                return data;
             }
         }
     }
