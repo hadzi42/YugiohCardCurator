@@ -1,9 +1,8 @@
 ﻿using System.Windows;
 using YugiohCardCurator.Logic;
 using YugiohCardCurator.ViewModels;
-using YugiohCardCurator.Views;
 
-namespace YugiohCardCurator
+namespace YugiohCardCurator.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
