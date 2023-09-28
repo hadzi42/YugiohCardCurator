@@ -7,7 +7,7 @@ namespace YugiohCardCurator.Logic
 {
     internal sealed class MonsterCard : ISerializable
     {
-        public const string Header = "Name;PrintTag;Types;Attribute;Level;ATK;DEF;Id;Border;Title;Image;Edition;Storage;Rarity;InitialPrice;CurrentPrice";
+        public const string Header = "Name;PrintTag;Types;Attribute;Level;ATK;DEF;Id;Border;Title;Image;Edition;Quantity;Storage;Rarity;InitialPrice;CurrentPrice;Pendulum";
         private const string Separator = ";";
 
         public string Name { get; }
@@ -22,12 +22,14 @@ namespace YugiohCardCurator.Logic
         public string Title { get; }
         public string Image { get; }
         public string Edition { get; }
+        public int Quantity { get; set; }
         public string Storage { get; }
         public string Rarity { get; }
         public float InitialPrice { get; }
         public float CurrentPrice { get; set; }
+        public string Pendulum { get; }
 
-        public MonsterCard(string name, string printTag, string types, string attribute, int level, string atk, string def, string id, string border, string title, string image, string edition, string storage, string rarity, float initialPrice)
+        public MonsterCard(string name, string printTag, string types, string attribute, int level, string atk, string def, string id, string border, string title, string image, string edition, int quantity, string storage, string rarity, float initialPrice, string pendulum)
         {
             Name = name;
             PrintTag = printTag;
@@ -41,10 +43,12 @@ namespace YugiohCardCurator.Logic
             Title = title;
             Image = image;
             Edition = edition;
+            Quantity = quantity;
             Storage = storage;
             Rarity = rarity;
             InitialPrice = initialPrice;
             CurrentPrice = initialPrice;
+            Pendulum = pendulum;
         }
 
         public MonsterCard(BinaryReader br)
@@ -65,15 +69,17 @@ namespace YugiohCardCurator.Logic
             Title = parts[9];
             Image = parts[10];
             Edition = parts[11];
-            Storage = parts[12];
-            Rarity = parts[13];
-            InitialPrice = Convert.ToSingle(parts[14], CultureInfo.InvariantCulture);
-            CurrentPrice = Convert.ToSingle(parts[15], CultureInfo.InvariantCulture);
+            Quantity = Convert.ToInt32(parts[12], CultureInfo.InvariantCulture);
+            Storage = parts[13];
+            Rarity = parts[14];
+            InitialPrice = Convert.ToSingle(parts[15], CultureInfo.InvariantCulture);
+            CurrentPrice = Convert.ToSingle(parts[16], CultureInfo.InvariantCulture);
+            Pendulum = parts[17];
         }
 
         public void Serialize(BinaryWriter bw)
         {
-            string s = string.Join(Separator, Name, PrintTag, Types, Attribute, Level.ToStringInvariant(), ATK, DEF, Id, Border, Title, Image, Edition, Storage, Rarity, InitialPrice.ToStringInvariant(), CurrentPrice.ToStringInvariant());
+            string s = string.Join(Separator, Name, PrintTag, Types, Attribute, Level.ToStringInvariant(), ATK, DEF, Id, Border, Title, Image, Edition, Quantity, Storage, Rarity, InitialPrice.ToStringInvariant(), CurrentPrice.ToStringInvariant(), Pendulum);
             bw.Write(s);
             bw.Write(Environment.NewLine);
         }

@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:YugiohCardCurator.ViewModels"
-             mc:Ignorable="d" 
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d"
              d:DesignHeight="640"
              d:DesignWidth="840">
 
@@ -14,8 +15,11 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="90" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -38,7 +42,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Enter 'Print-tag' and press 'Fill' button to add card properties automatically."
-                   Grid.ColumnSpan="2"
+                   Grid.ColumnSpan="5"
                    Grid.Row="0" />
 
         <TextBlock Text="Print tag:"
@@ -131,83 +135,113 @@
                  Height="24"
                  Width="180" />
 
-        <TextBlock Text="Id:"
-                   Grid.Column="0"
-                   Grid.Row="8"
-                   Height="24" />
-        <TextBox Text="{Binding Path=Id, Mode=TwoWay}"
+        <TextBlock Text="Pendulum:"
+           Grid.Column="0"
+           Grid.Row="8"
+           Height="24" />
+        <TextBox Text="{Binding Path=Pendulum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Column="1"
                  Grid.Row="8"
                  Margin="12,0,0,0"
                  Height="24"
                  Width="180" />
 
-        <TextBlock Text="Border:"
+        <TextBlock Text="Quantity:"
                    Grid.Column="0"
                    Grid.Row="9"
+                   Height="24" />
+        <xctk:IntegerUpDown Value="{Binding Path=Quantity, Mode=TwoWay}"
+                            Grid.Column="1"
+                            Grid.Row="9"
+                            Minimum="1"
+                            Margin="12,0,0,0"
+                            Height="24"
+                            Width="180" />
+
+        <!-- Optional properties -->
+        <TextBlock Text="Optional properties of the card"
+                   Grid.Column="2"
+                   Grid.ColumnSpan="2"
+                   Grid.Row="1"
+                   Height="24" />
+
+        <TextBlock Text="Id:"
+                   Grid.Column="2"
+                   Grid.Row="2"
+                   Height="24" />
+        <TextBox Text="{Binding Path=Id, Mode=TwoWay}"
+                 Grid.Column="3"
+                 Grid.Row="2"
+                 Margin="12,0,0,0"
+                 Height="24"
+                 Width="180" />
+
+        <TextBlock Text="Border:"
+                   Grid.Column="2"
+                   Grid.Row="3"
                    Height="24" />
         <ComboBox Text="{Binding Path=Border, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                   ItemsSource="{Binding Path=Borders, Mode=OneTime}"
                   SelectedItem="{Binding Path=SelectedBorder, Mode=TwoWay}"
                   IsEditable="True"
-                  Grid.Column="1"
-                  Grid.Row="9"
+                  Grid.Column="3"
+                  Grid.Row="3"
                   Margin="12,0,0,0"
                   Height="24"
                   Width="180" />
 
         <TextBlock Text="Title:"
-                   Grid.Column="0"
-                   Grid.Row="10"
+                   Grid.Column="2"
+                   Grid.Row="4"
                    Height="24" />
         <ComboBox Text="{Binding Path=Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                   ItemsSource="{Binding Path=Titles, Mode=OneTime}"
                   SelectedItem="{Binding Path=SelectedTitle, Mode=TwoWay}"
                   IsEditable="True"
-                  Grid.Column="1"
-                  Grid.Row="10"
+                  Grid.Column="3"
+                  Grid.Row="4"
                   Margin="12,0,0,0"
                   Height="24"
                   Width="180" />
 
         <TextBlock Text="Image:"
-                   Grid.Column="0"
-                   Grid.Row="11"
+                   Grid.Column="2"
+                   Grid.Row="5"
                    Height="24" />
         <ComboBox Text="{Binding Path=Image, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                   ItemsSource="{Binding Path=Images, Mode=OneTime}"
                   SelectedItem="{Binding Path=SelectedImage, Mode=TwoWay}"
                   IsEditable="True"
-                  Grid.Column="1"
-                  Grid.Row="11"
+                  Grid.Column="3"
+                  Grid.Row="5"
                   Margin="12,0,0,0"
                   Height="24"
                   Width="180" />
 
         <TextBlock Text="Edition:"
-                   Grid.Column="0"
-                   Grid.Row="12"
+                   Grid.Column="2"
+                   Grid.Row="6"
                    Height="24" />
         <ComboBox Text="{Binding Path=Edition, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                   ItemsSource="{Binding Path=Editions, Mode=OneTime}"
                   SelectedItem="{Binding Path=SelectedEdition, Mode=TwoWay}"
                   IsEditable="True"
-                  Grid.Column="1"
-                  Grid.Row="12"
+                  Grid.Column="3"
+                  Grid.Row="6"
                   Margin="12,0,0,0"
                   Height="24"
                   Width="180" />
 
         <TextBlock Text="Storage:"
-                   Grid.Column="0"
-                   Grid.Row="13"
+                   Grid.Column="2"
+                   Grid.Row="7"
                    Height="24" />
         <ComboBox Text="{Binding Path=Storage, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                   ItemsSource="{Binding Path=Storages, Mode=OneTime}"
                   SelectedItem="{Binding Path=SelectedStorage, Mode=TwoWay}"
                   IsEditable="True"
-                  Grid.Column="1"
-                  Grid.Row="13"
+                  Grid.Column="3"
+                  Grid.Row="7"
                   Margin="12,0,0,0"
                   Height="24"
                   Width="180" />

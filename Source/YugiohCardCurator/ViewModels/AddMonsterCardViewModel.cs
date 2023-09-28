@@ -22,19 +22,23 @@ namespace YugiohCardCurator.ViewModels
         };
         private static readonly string[] PropertyNames = new[]
         {
-            nameof(Name), nameof(Level), nameof(Types), nameof(Atk), nameof(Def), nameof(Id), nameof(Rarity), nameof(Price)
+            nameof(Name), nameof(Level), nameof(Atk), nameof(Def), nameof(Id), nameof(Rarity), nameof(Price)
         };
 
         private CardInfoClient _Client;
         private CardManager _CardManager;
+        private IDialogHandler _DialogHandler;
 
         private string _PrintTag;
         private string _SelectedAttributeValue;
+        private string _Types = "";
         private string _Border;
         private string _Title;
         private string _Image;
         private string _Edition;
+        private int _Quantity = 1;
         private string _Storage;
+        private string _Pendulum;
 
         public static ICollection<string> Attributes
         {
@@ -45,6 +49,16 @@ namespace YugiohCardCurator.ViewModels
         {
             get { return _SelectedAttributeValue; }
             set { SetValue(ref _SelectedAttributeValue, value); }
+        }
+
+        public string Types
+        {
+            get { return _Types; }
+            set
+            {
+                if (SetValue(ref _Types, value))
+                    Add.RaiseCanExecuteChanged();
+            }
         }
 
         public string Border
@@ -111,6 +125,22 @@ namespace YugiohCardCurator.ViewModels
             }
         }
 
+        public string Pendulum
+        {
+            get { return _Pendulum; }
+            set
+            {
+                if (SetValue(ref _Pendulum, value))
+                    Add.RaiseCanExecuteChanged();
+            }
+        }
+
+        public int Quantity
+        {
+            get { return _Quantity; }
+            set { SetValue(ref _Quantity, value); }
+        }
+
         public string Storage
         {
             get { return _Storage; }
@@ -151,7 +181,6 @@ namespace YugiohCardCurator.ViewModels
         }
         public string Name { get; set; }
         public string Level { get; set; }
-        public string Types { get; set; }
         public string Atk { get; set; }
         public string Def { get; set; }
         public string Id { get; set; }
@@ -169,13 +198,13 @@ namespace YugiohCardCurator.ViewModels
             Borders = new RangeObservableCollection<string> { "Normal", "Gold" };
             Titles = new RangeObservableCollection<string> { "Normal" };
             Images = new RangeObservableCollection<string> { "Normal" };
-            Editions = new RangeObservableCollection<string>();
+            Editions = new RangeObservableCollection<string> { "1st Edition" };
             Storages = new RangeObservableCollection<string>();
             Rarities = new RangeObservableCollection<string>();
 
             IncrementPrintTag = new DelegateCommand(IncrementPrintTagExecute, IncrementPrintTagCanExecute);
             Fill = new DelegateCommand(FillExecute);
-            Add = new DelegateCommand(AddExecute);
+            Add = new DelegateCommand(AddExecute, AddCanExecute);
 
             PrintTag = "MP23-EN002";
             SelectedBorder = "Normal";
@@ -183,10 +212,11 @@ namespace YugiohCardCurator.ViewModels
             SelectedImage = "Normal";
         }
 
-        public void Initialize(CardManager cardManager)
+        public void Initialize(CardManager cardManager, IDialogHandler dialogHandler)
         {
             _CardManager = cardManager;
             cardManager.Loaded += OnCardManagerLoaded;
+            _DialogHandler = dialogHandler;
         }
 
         public void Dispose()
@@ -216,6 +246,12 @@ namespace YugiohCardCurator.ViewModels
         private async void FillExecute(object o)
         {
             CardData data = await _Client.GetPriceByPrintTagAsync(PrintTag);
+            if (data == null)
+            {
+                _DialogHandler.ShowErrorDialog("Print-tag error", "There is no such card with print tag: " + _PrintTag);
+                return;
+            }
+
             Name = data.Name;
             Rarity = data.PriceData.Rarity;
             if (!Rarities.Contains(Rarity))
@@ -231,7 +267,19 @@ namespace YugiohCardCurator.ViewModels
             RaisePropertyChanged(PropertyNames);
         }
 
-        private void AddExecute(object o)
+        private bool AddCanExecute(object _)
+        {
+            bool isPendulumValid;
+            if (Types.Contains("Pendulum", StringComparison.OrdinalIgnoreCase))
+                isPendulumValid = IsPositiveNumber(_Pendulum);
+            else
+                isPendulumValid = string.IsNullOrEmpty(_Pendulum);
+
+            return
+                isPendulumValid;
+        }
+
+        private void AddExecute(object _)
         {
             if (!IsAttackOrDefenseValid(Atk))
             {
@@ -246,7 +294,7 @@ namespace YugiohCardCurator.ViewModels
 
             int level = Convert.ToInt32(Level, CultureInfo.InvariantCulture);
             float price = Convert.ToSingle(Price.Substring(1), CultureInfo.InvariantCulture);
-            MonsterCard monster = new MonsterCard(Name, PrintTag, Types, SelectedAttributeValue, level, Atk, Def, Id, Border, Title, Image, Edition, Storage, Rarity, price);
+            MonsterCard monster = new MonsterCard(Name, PrintTag, Types, SelectedAttributeValue, level, Atk, Def, Id, Border, Title, Image, Edition, Quantity, Storage, Rarity, price, Pendulum);
             _CardManager.Add(monster);
 
             // Reset view.
@@ -257,14 +305,16 @@ namespace YugiohCardCurator.ViewModels
             Atk = "";
             Def = "";
             Id = "";
+            Quantity = 1;
             Rarity = "";
             Price = "";
+            Pendulum = "";
             RaisePropertyChanged(PropertyNames);
         }
 
         private static bool IsAttackOrDefenseValid(string s)
         {
-            if (string.IsNullOrWhiteSpace(s))
+            if (string.IsNullOrEmpty(s))
                 return false;
 
             if (int.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out _))
@@ -276,6 +326,13 @@ namespace YugiohCardCurator.ViewModels
         private void OnCardManagerLoaded()
         {
             Rarities.ReplaceAll(_CardManager.Rarities);
+        }
+
+        private static bool IsPositiveNumber(string s)
+        {
+            return
+                int.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out int num) &&
+                num > 0;
         }
     }
 }

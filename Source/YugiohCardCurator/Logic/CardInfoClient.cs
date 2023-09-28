@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
 using YugiohCardCurator.DTOs;
 
 namespace YugiohCardCurator.Logic
@@ -38,8 +39,9 @@ namespace YugiohCardCurator.Logic
         {            
             if (_Cache.TryGet(name, out CardData data))
                 return data;
-            
-            using (HttpResponseMessage response = await _httpClient.GetAsync("card_data/" + name).ConfigureAwait(false))
+
+            string encoded = HttpUtility.UrlEncode(name);
+            using (HttpResponseMessage response = await _httpClient.GetAsync("card_data/" + encoded).ConfigureAwait(false))
             {
                 string responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 data = JsonSerializer.Deserialize<PriceResponse>(responseData).Data;

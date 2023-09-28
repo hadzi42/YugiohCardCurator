@@ -15,8 +15,9 @@ namespace YugiohCardCurator
             InitializeComponent();
 
             CardManager cardManager = new CardManager();
-            ((MainWindowViewModel)DataContext).Initialize(cardManager, new DialogHandler());
-            ((AddMonsterCardViewModel)AddMonsterCard.DataContext).Initialize(cardManager);
+            DialogHandler dialogHandler = new DialogHandler();
+            ((MainWindowViewModel)DataContext).Initialize(cardManager, dialogHandler);
+            ((AddMonsterCardViewModel)AddMonsterCard.DataContext).Initialize(cardManager, dialogHandler);
         }
     }
 }
